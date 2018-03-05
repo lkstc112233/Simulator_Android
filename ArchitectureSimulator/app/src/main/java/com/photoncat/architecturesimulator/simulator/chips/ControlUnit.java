@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.photoncat.architecturesimulator.FrontPanelActivity;
 import com.photoncat.architecturesimulator.simulator.Machine;
 import com.photoncat.architecturesimulator.simulator.util.ConvenientStreamTokenizer;
 import static com.photoncat.architecturesimulator.simulator.util.ExceptionHandling.panic;
@@ -128,7 +129,7 @@ public class ControlUnit extends Chip {
 	 * @throws IllegalStateException When file format error.
 	 */
 	private void loadFile() throws IOException {
-		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/conf/controlDef.ini"))));
+		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new BufferedReader(new InputStreamReader(FrontPanelActivity.getActivity().getAssets().open("conf/controlDef.ini"))));
 
 		if (!parsePorts(tokens))
 			panic("Cannot parse ports.\nLine: " + tokens.lineno());

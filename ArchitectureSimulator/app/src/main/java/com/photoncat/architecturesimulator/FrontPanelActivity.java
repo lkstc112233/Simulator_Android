@@ -19,6 +19,9 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.photoncat.architecturesimulator.simulator.Machine;
+import com.photoncat.architecturesimulator.simulator.userInterface.MachineWrapper;
+
 public class FrontPanelActivity extends AppCompatActivity {
 
     /**
@@ -36,9 +39,18 @@ public class FrontPanelActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+    private static MachineWrapper machine;
+    private static FrontPanelActivity myself;
+    public static FrontPanelActivity getActivity(){
+        return myself;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myself = this;
+        machine = new MachineWrapper(new Machine());
+
         setContentView(R.layout.activity_front_panel);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -119,6 +131,9 @@ public class FrontPanelActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_front_panel, container, false);
+            com.photoncat.architecturesimulator.databinding.FragmentFrontPanelBinding binding =
+                    com.photoncat.architecturesimulator.databinding.FragmentFrontPanelBinding.inflate(getLayoutInflater(), (ViewGroup) rootView, true);
+            binding.setMachine(machine);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;

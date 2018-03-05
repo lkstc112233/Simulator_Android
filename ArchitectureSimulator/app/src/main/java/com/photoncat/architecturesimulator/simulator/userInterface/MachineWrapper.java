@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableInt;
+import android.view.View;
 
 import com.photoncat.architecturesimulator.BR;
 
@@ -91,6 +92,10 @@ public class MachineWrapper extends BaseObservable {
     	}
     	toTick = !toTick;
     	updateEvent();
+    }
+    @Bindable
+    public void onCircleClick(View view) {
+        forceTick();
     }
     public void forceTick() {
     	machine.evaluate();

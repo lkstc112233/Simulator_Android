@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.photoncat.architecturesimulator.FrontPanelActivity;
 import com.photoncat.architecturesimulator.simulator.chips.Chip;
 import com.photoncat.architecturesimulator.simulator.chips.ChipFactory;
 import com.photoncat.architecturesimulator.simulator.chips.ClockRegister;
@@ -59,8 +60,13 @@ public class Machine {
 		// It loads a testing program into the memory address 0x10, and sets PC to
 		// 0x10.
 		((ClockRegister)getChip("PC")).setValue(1025);
-		CompiledProgram code = AssemblyCompiler.compile(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/conf/IPL Program.prg"))));
-		mem.loadProgram(1025, code);
+		CompiledProgram code = null;
+		try {
+			code = AssemblyCompiler.compile(new BufferedReader(new InputStreamReader(FrontPanelActivity.getActivity().getAssets().open("conf/IPL Program.prg"))));
+			mem.loadProgram(1025, code);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -69,7 +75,7 @@ public class Machine {
 	 * @throws IOException When load file failed.
 	 */
 	private void loadFile() throws IOException {
-		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/conf/chipsDef.ini"))));
+		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new BufferedReader(new InputStreamReader(FrontPanelActivity.getActivity().getAssets().open("conf/chipsDef.ini"))));
 		parseChipsDefinition(tokens);
 		parseCablesDefinition(tokens);
 	}
